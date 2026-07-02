@@ -44,7 +44,7 @@ Read the current `context/progress-tracker.md` first, then revise these sections
 - **Parking Lot** — raw ideas that surfaced but aren't planned yet. Keep them; don't promote them to Up Next until they've been grilled and run through `/to-plan`.
 - **Known Issues** — bugs or gaps discovered but not yet fixed (Issue / Severity / Status).
 - **Decisions Made** — choices future work depends on. For a decision that is hard to reverse, surprising, and a real trade-off, write a one-line entry here and create a full ADR in `docs/adr/` — link the two. Don't duplicate the ADR's contents into the tracker.
-- **Session Notes** — append a dated entry: what was done, what broke, what to watch for.
+- **Session Notes** — append a dated entry: what was done, what broke, what to watch for. Keep only the **last 5 sessions** here — this section is read every session at restore, so it must not grow without bound. When trimming an older entry, first make sure anything still relevant is already reflected in Completed, Known Issues, or Decisions Made; the notes are a short-term scratchpad, not the permanent record.
 
 ### What not to capture
 
@@ -89,17 +89,29 @@ Either this is the first session, or context/ hasn't been set up yet.
 Copy the context template in, then run /remember save at the end of a session.
 ```
 
-### Step 2 — Read the rest of the context
+### Step 2 — Load orientation, index the rest
 
-Then read the rest of `context/` and the project glossary so you have the full picture:
+Restore's job is to answer **"where are we?"** — not to preload every reference doc. Eagerly reading the whole `context/` folder plus every ADR can cost 50–100k tokens on a mature project, and most of it is reference material you will not touch this session. So load a lean orientation set, and leave the rest to be read on demand when a task actually reaches it.
 
-- `context/glossary.md` — the project's language
-- `context/project-overview.md`, `context/architecture.md`, `context/build-plan.md`, `context/code-standards.md`, `context/library-docs.md`
-- `context/ui-tokens.md`, `context/ui-rules.md`, `context/ui-registry.md`
-- `docs/adr/` — decisions already locked
-- The agent instruction file if present (`CLAUDE.md`, `AGENTS.md`, `.cursorrules`, etc.)
+**Read now — orientation (always):**
 
-Do not scan beyond these. Never surface raw secrets; summarise any in redacted form only.
+- `context/progress-tracker.md` — already read in Step 1; it is the heartbeat.
+- `context/build-plan.md` — **only the phase named in the tracker's `Current phase`** (plus anything listed under `Up Next`). Skip completed phases and far-future phases.
+- `context/glossary.md` — the project's language; it is small and you need it to name things correctly.
+
+**Index, don't read — reference (read only when the work touches it):**
+
+Note that these exist and what each is for, but do **not** open them until a task needs them:
+
+- `context/architecture.md`, `context/code-standards.md` — read before writing code in that area.
+- `context/library-docs.md` — read only the section for a library you are about to use (the file is organised for exactly this).
+- `context/design-system.md`, `context/ui-tokens.md`, `context/ui-rules.md`, `context/ui-registry.md` — read only when doing UI work.
+- `context/project-overview.md` — read only if you need to re-orient on what the product is.
+- `docs/adr/` — **list the filenames only.** Each filename is the decision's slug (`0002-event-sourced-write-model.md`), so the directory listing *is* your index of locked decisions. Open a specific ADR only when a task touches the decision it records. Never read every ADR up front.
+
+`CLAUDE.md` (or `AGENTS.md` / `.cursorrules`) is already loaded automatically each session — do not re-read it.
+
+When you do read a reference file mid-session, read only what the task needs. Never surface raw secrets; summarise any in redacted form only.
 
 ### Step 3 — Confirm what was restored
 
@@ -111,13 +123,13 @@ Restored. Here is where we are:
 **Current phase:** [phase] — [overall status]
 **Last session:** [what was completed]
 **In progress:** [what's partial]
-**Decisions locked:** [key decisions / ADRs]
+**Decisions locked:** [from the tracker's Decisions Made + the ADR filenames — titles only]
 **Next up:** [what to start with]
 
 Is this correct? Say yes to continue, or correct anything before we proceed.
 ```
 
-Only after the developer confirms does the session continue.
+All of this comes from the orientation set alone — you do not need to open reference files to produce it. Only after the developer confirms does the session continue; read reference files as the work reaches them.
 
 ### If the tracker is incomplete or unclear
 

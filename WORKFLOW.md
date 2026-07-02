@@ -105,7 +105,7 @@ Same loop — you just skip setup (the `context/` folder already exists) and sta
 
 | When | Skill | Touches |
 |---|---|---|
-| Start of session | `/remember restore` | reads `context/` + `progress-tracker.md` |
+| Start of session | `/remember restore` | reads `progress-tracker.md` + active plan phase + glossary; indexes the rest for on-demand reading |
 | Before building anything | `/grill-with-docs` | writes `context/glossary.md`, `docs/adr/` |
 | Turn the grilling into a plan entry | `/to-plan` | `context/build-plan.md` + `progress-tracker.md` |
 | Design a UI feature (before building) | `/design-system` | `context/design-system.md`, syncs `ui-tokens.md` / `ui-rules.md` |
