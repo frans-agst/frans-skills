@@ -1,6 +1,6 @@
 ---
 name: design-system
-description: "Generate the visual design for a UI feature BEFORE building it — runs ui-ux-pro-max to produce a design system (pattern, palette, typography, effects, anti-patterns) and captures it into context/. The design-creation half of the loop; runs between /to-plan and /implement for UI features."
+description: "Generate the visual design for a UI feature BEFORE building it — first INTERROGATES the design intent (feel, references, signature, anti-patterns) as a UI/UX expert until the brief is non-generic, then runs ui-ux-pro-max to produce a design system and captures it into context/. The design-creation half of the loop; runs between /to-plan and /implement for UI features."
 disable-model-invocation: true
 ---
 
@@ -11,8 +11,11 @@ written. It is the design-creation step the rest of the loop assumes already hap
 and `ui-tokens.md` are written as if "a design was delivered." This is where that design gets
 delivered.
 
-It runs the **ui-ux-pro-max** engine (the generator) and captures its output into the `context/`
-substrate, so `/implement`, `/imprint`, and `/review` all read the same files they already read.
+It works in two moves: first it **interrogates the design intent** like a UI/UX expert who refuses to
+ship a template — feel, references, signature, anti-patterns — until the brief is specific enough that
+the output *can't* be generic. Then it runs the **ui-ux-pro-max** engine (the generator) on that brief
+and captures the output into the `context/` substrate, so `/implement`, `/imprint`, and `/review` all
+read the same files they already read.
 
 > **Requires ui-ux-pro-max installed.** See README setup. If it isn't installed, stop and say so —
 > don't invent a design system by hand; that's the whole reason this engine exists.
@@ -52,10 +55,43 @@ only what's new and reconcile it against the established system.
 
 ---
 
-## Step 2 — Run ui-ux-pro-max
+## Step 2 — Interrogate the design intent
 
-Feed the engine the feature's UI brief plus the project's domain and stack. Use the install's normal
-invocation — for example the direct script:
+Before the engine runs, grill the design. ui-ux-pro-max is only as good as the brief you hand it —
+feed it *"a settings page"* and you get a settings page that looks like every settings page. The
+whole point of this step is to arrive at a brief so specific the output **couldn't** be generic.
+
+Run a **`/grilling` pass scoped to the Experience lens** (Round 3 of that skill), grounded in the
+product answers from the `/grill-with-docs` session that produced this feature. One question at a
+time, recommend an answer each time, and apply grilling's **kill-generic** doctrine without mercy — a
+design brief is exactly where genericness hides. When I reach for *"clean and modern,"* push back:
+that describes ten thousand dashboards, not this one.
+
+Gate it on this design-readiness checklist — show it as boxes flip, and do **not** run the engine
+until every box is checked (or I say **"ship it"**):
+
+```
+DESIGN READINESS — n/7
+[ ] Emotional register — 2-3 adjectives for the feel, AND what it's NOT
+[ ] Anti-references — what it must NOT resemble (name "generic shadcn dashboard" if that's the risk)
+[ ] North-star references — 1-3 concrete products, and what *specifically* about each
+[ ] Signature moment — the one screen/interaction that carries the personality
+[ ] Density & rhythm — spacious vs dense, calm vs energetic, where the whitespace goes
+[ ] Motion & voice — how it moves, and how the microcopy sounds
+[ ] The distinctive commitment — one opinionated choice a template would never make
+```
+
+The answers to these seven **are** the brief for Step 3 — not a vague phrase, a paragraph with a
+point of view. On a per-feature pass, this interrogation is lighter (the register and references are
+already locked in `context/design-system.md`); focus it on the signature and the distinctive
+commitment *for this feature* without contradicting the established system.
+
+---
+
+## Step 3 — Run ui-ux-pro-max
+
+Feed the engine the **brief you built in Step 2** — the design-readiness answers — plus the project's
+domain and stack. Use the install's normal invocation — for example the direct script:
 
 ```
 python3 .claude/skills/ui-ux-pro-max/scripts/search.py "<feature UI description>" \
@@ -64,9 +100,13 @@ python3 .claude/skills/ui-ux-pro-max/scripts/search.py "<feature UI description>
 
 or the auto-activated skill / `/ui-ux-pro-max <request>` form, whichever the install exposes.
 
-Pass the **whole feature UI brief**, not a vague phrase — the richer the request, the better the
-reasoning. The engine returns: a **pattern**, a **style**, a **color palette**, a **typography
-pairing**, **key effects**, **anti-patterns to avoid**, and a **pre-delivery checklist**.
+Pass the **Step 2 brief in full** — the feel, anti-references, north-stars, signature, density, motion,
+and the distinctive commitment — not a vague phrase. The richer and more opinionated the request, the
+better the reasoning, and the interrogation is what made it rich. The engine returns: a **pattern**, a
+**style**, a **color palette**, a **typography pairing**, **key effects**, **anti-patterns to avoid**,
+and a **pre-delivery checklist**. Reconcile its output against your Step 2 answers — if it hands back
+something that contradicts the register or drifts toward an anti-reference, push it again rather than
+accepting a generic result the interrogation was meant to prevent.
 
 On the **first** pass, let it generate the global system. On **per-feature** passes, constrain it to
 the established palette/typography in `context/design-system.md` and only let it add what's genuinely
@@ -75,7 +115,7 @@ silently overriding it.
 
 ---
 
-## Step 3 — Capture the output into context/
+## Step 4 — Capture the output into context/
 
 The engine's native persistence is a `design-system/MASTER.md` + `pages/*.md` folder. **This project
 keeps one home: `context/`.** Redirect the output there.
@@ -97,7 +137,7 @@ The hierarchy: `design-system.md` is the *why and the whole*; `ui-tokens.md` / `
 
 ---
 
-## Step 4 — Icons
+## Step 5 — Icons
 
 This project uses **itshover** animated icons (a shadcn registry). When the design calls for icons,
 record which ones in the per-feature section and confirm `context/ui-rules.md` documents the install
@@ -106,7 +146,7 @@ an itshover icon fits.
 
 ---
 
-## Step 5 — Confirm and hand off
+## Step 6 — Confirm and hand off
 
 Report what was generated:
 
@@ -117,10 +157,11 @@ Pattern:     [pattern]
 Palette:     [key colors]
 Typography:  [font pairing]
 Effects:     [key effects]
+Signature:   [the one distinctive moment/interaction from Step 2]
 Icons:       [itshover icons chosen, if any]
 Synced:      context/ui-tokens.md, context/ui-rules.md
 
-Anti-patterns to avoid: [the engine's flagged anti-patterns]
+Anti-patterns to avoid: [the engine's flagged anti-patterns + the Step 2 anti-references]
 
 Ready for /implement.
 ```
@@ -133,6 +174,9 @@ something to paper over.
 
 ## The standard
 
-The design exists before the code does. A feature built without a design pass is a feature whose look
-was decided implicitly, one component at a time — which is exactly the drift `/imprint` exists to
-clean up after. Decide the design once, here, then build to it.
+The design exists before the code does — and it is *specific* before it exists. A feature built
+without a design pass has its look decided implicitly, one component at a time, which is exactly the
+drift `/imprint` exists to clean up after. But a design pass fed a lazy brief is barely better: it
+produces a competent, forgettable interface that could belong to any product. The interrogation in
+Step 2 is the difference. Decide the design once, here — and decide it with a point of view — then
+build to it.

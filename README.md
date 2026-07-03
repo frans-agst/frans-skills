@@ -40,9 +40,9 @@ frans-skills/
 | Skill | From | Role |
 |---|---|---|
 | `grill-with-docs` | mattpocock | Relentless alignment; writes `context/glossary.md` + ADRs |
-| `grilling`, `domain-modeling` | mattpocock | The engines behind `grill-with-docs` |
+| `grilling`, `domain-modeling` | mattpocock (adapted) | The engines behind `grill-with-docs`. `grilling` now interrogates in three lenses — PM / senior dev / UI-UX — across phased rounds, hunting generic defaults and gating on a readiness checklist before it hands off |
 | `to-plan` | frans (new) | Synthesize the grilling into a `build-plan.md` feature entry — the no-issues analog of `/to-prd` |
-| `design-system` | frans (new) | **Design-creation step.** Runs [ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) to generate the design → `context/design-system.md`, syncs `ui-tokens.md` / `ui-rules.md` |
+| `design-system` | frans (new) | **Design-creation step.** Interrogates the design intent (feel, references, signature, anti-patterns) until the brief is non-generic, then runs [ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) on it → `context/design-system.md`, syncs `ui-tokens.md` / `ui-rules.md` |
 | `implement` | mattpocock | Build the current build-plan feature |
 | `tdd`, `codebase-design` | mattpocock | Red-green-refactor + deep-module design |
 | `diagnosing-bugs` | mattpocock | Rigorous, feedback-loop-first bug diagnosis |

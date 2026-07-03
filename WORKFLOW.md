@@ -38,14 +38,15 @@ Every time. A board updated *sometimes* is a board you can't trust.
   /remember restore                         ← start: reload tracker + context, confirm where we are
         │
         ▼
-  /grill-with-docs                          ← align before building; writes context/glossary.md + docs/adr/
+  /grill-with-docs                          ← interrogate through 3 lenses (PM/dev/UI-UX) until it's
+        │                                      non-generic; writes context/glossary.md + docs/adr/
         │
         ▼
   /to-plan                                  ← synthesize the grilling into a context/build-plan.md
         │                                      feature entry (UI / Logic / Done when) + marks it "Up Next"
         ▼
-  /design-system   (UI features only)        ← generate the design BEFORE building: runs ui-ux-pro-max,
-        │                                      writes context/design-system.md, syncs ui-tokens/ui-rules
+  /design-system   (UI features only)        ← interrogate the design intent, then run ui-ux-pro-max on
+        │                                      that brief; writes context/design-system.md, syncs ui-tokens/ui-rules
         ▼
   /implement   (uses /tdd, /codebase-design) ← build from the build-plan entry, at agreed seams
         │  └─ /imprint after each UI component → context/ui-registry.md
@@ -65,9 +66,9 @@ Every time. A board updated *sometimes* is a board you can't trust.
   /remember save                            ← end: writes tracker + next action
 ```
 
-**Why `/grill-with-docs` instead of `/architect`:** both align before building, but grilling is sharper *and* leaves durable artifacts — `context/glossary.md` and ADRs — instead of just chat output. Grilling produces no plan, which is why `/to-plan` writes the build-plan entry right after.
+**Why `/grill-with-docs` instead of `/architect`:** both align before building, but grilling is sharper *and* leaves durable artifacts — `context/glossary.md` and ADRs — instead of just chat output. It interrogates in three rounds — **Product** (why/who/wedge), **Engineering** (complexity/risk/data), **Experience** (feel/signature/states) — one question at a time, actively hunting down any answer generic enough to describe someone else's product, and it won't hand off until a readiness checklist is satisfied (differentiator named, one target user, non-goals, riskiest assumption, signature, states, anti-references). Grilling produces no plan, which is why `/to-plan` writes the build-plan entry right after.
 
-**Why `/design-system` before `/implement`:** the UI context files (`ui-rules.md`, `ui-tokens.md`) are written as if a design was *already delivered* — but nothing in the loop delivered it. `/design-system` is that step: it runs the **ui-ux-pro-max** engine to decide the look (pattern, palette, typography, effects) once, up front, and captures it into `context/design-system.md`. Without it, the design gets decided implicitly one component at a time — the exact drift `/imprint` exists to clean up after. Decide it once, then build to it. (`/design-review` is the matching gate on the way out: it audits the built UI against the Web Interface Guidelines, the accessibility/UX baseline your own context files don't fully capture.)
+**Why `/design-system` before `/implement`:** the UI context files (`ui-rules.md`, `ui-tokens.md`) are written as if a design was *already delivered* — but nothing in the loop delivered it. `/design-system` is that step. It first **interrogates the design intent** as a UI/UX expert (feel, anti-references, north-stars, signature, density, motion, one distinctive commitment) — because ui-ux-pro-max is only as good as its brief, and *"a settings page"* produces a settings page that looks like every settings page. Then it runs the **ui-ux-pro-max** engine on that sharpened brief to decide the look once, up front, and captures it into `context/design-system.md`. Without it, the design gets decided implicitly one component at a time — the exact drift `/imprint` exists to clean up after. Decide it once, *with a point of view*, then build to it. (`/design-review` is the matching gate on the way out: it audits the built UI against the Web Interface Guidelines, the accessibility/UX baseline your own context files don't fully capture.)
 
 ---
 
