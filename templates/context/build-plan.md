@@ -10,6 +10,24 @@
 
 ---
 
+## Phase Review — manual checklist (human)
+
+<!-- Run through this yourself at the end of each phase before starting the next. It's a manual
+     review — nothing in the workflow blocks on it, and the agent doesn't check these; you do. -->
+
+At the end of a phase, check:
+
+- [ ] Each feature's **Done when** still holds when you actually use it
+- [ ] The features work together, not just each in isolation
+- [ ] It delivers what this phase was meant to (the phase intent)
+- [ ] Nothing in an earlier phase regressed
+- [ ] It feels right — you'd ship this
+- [ ] `progress-tracker.md` is current (Completed / Decisions / Known Issues)
+- [ ] No Critical/Important Known Issue is being carried into the next phase unowned
+- [ ] The next phase is still the right next move
+
+---
+
 ## Phase 1 — [Name]
 
 ### 01 [Feature Name]
