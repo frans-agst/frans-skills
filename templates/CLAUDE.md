@@ -22,6 +22,7 @@
 - Build with `/implement` (uses `/tdd` and `/codebase-design` at agreed seams).
 - After each UI component: `/imprint` (keeps `context/ui-registry.md` current).
 - After each feature: `/review` (reads the code), then `/design-review` (audits the UI against the Web Interface Guidelines), then `/verify` (runs the app and checks each `Done when`). A feature only moves to Completed after `/verify` passes.
+- At the end of each phase: the human runs through the **Phase Review — manual checklist** at the top of `context/build-plan.md` before starting the next phase. It's a manual review — the workflow doesn't block on it and the agent doesn't check it.
 - When something breaks: `/recover` first (it triages), then `/diagnosing-bugs` if it's a real bug.
 
 ## The two files that track progress

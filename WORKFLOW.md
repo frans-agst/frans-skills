@@ -81,6 +81,12 @@ Same loop — you just skip setup (the `context/` folder already exists) and sta
 
 ---
 
+## Reviewing a phase (manual, human-only)
+
+At the end of each phase, run through the **Phase Review — manual checklist** at the top of `context/build-plan.md` yourself before starting the next phase. It's a human step: the loop doesn't stop for it and the agent doesn't check it — it's your moment to confirm the phase actually adds up (features work together, phase intent met, nothing regressed, still worth shipping) before you move on.
+
+---
+
 ## When something breaks
 
 ```
